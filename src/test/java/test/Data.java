@@ -68,11 +68,11 @@ class Data {
     static String password = "qwe123*";
 
     static String dbURL = "jdbc:sqlserver://10.217.153.98:1433;databaseName=OneTouchDirect_Activity;" +
-            "Integrated Security=False";
+           "Connection Timeout=60;Encrypt=False;Integrated Security=False";
 
-    //String userName = "euuser01";
-    //String password = "<Uu$3r9W20T6";
-    //String dbURL = "jdbc:sqlserver://Tpa-dwsqlcl01\\dwsqlcl01:1433;databaseName=OneTouchDirect_Activity;" +
-    //"Encrypt=False;Integrated Security=False";
+    //static String userName = "euuser01";
+    //static String password = "<Uu$3r9W20T6";
+    //static String dbURL = "jdbc:sqlserver://Tpa-dwsqlcl01\\dwsqlcl01:1433;databaseName=OneTouchDirect_Activity;" + "Encrypt=False;Integrated Security=False";
+    //static String dbURL = "jdbc:sqlserver://Tpa-dwsqlcl01\\dwsqlcl01:1433;Connection Timeout=60;databaseName=OneTouchDirect_Activity;Encrypt=False;Integrated Security=False;";
 
 }

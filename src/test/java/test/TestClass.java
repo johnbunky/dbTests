@@ -5,6 +5,14 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,6 +20,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 
 import static test.Data.*;
 
@@ -37,6 +46,7 @@ public class TestClass {
     @AfterClass
     public static void tearDown() throws SQLException {
         connection.close();
+        sendResult();
     }
 
     @Test
@@ -72,8 +82,7 @@ public class TestClass {
                 afterCallPlusscriptOutcomePlusCallIDFilter);
     }
 
-    private void queryWithFilter(String category,
-                                 BufferedWriter bw, @NotNull Statement statement, String callIdFilter)
+    private void queryWithFilter(String category, BufferedWriter bw, @NotNull Statement statement, String callIdFilter)
             throws SQLException, IOException {
         ResultSet rs = statement.executeQuery(getMainQuery(previousDate) +
                 and + callIdFilter + orderBy);
@@ -83,8 +92,10 @@ public class TestClass {
                               BufferedWriter bw, @NotNull ResultSet rs) throws SQLException, IOException {
         int rowsCounter = 0;
         while (rs.next()) {
-            bw.newLine();
-            bw.write(rs.getString("UCID"));
+            if ( rowsCounter < 10) {
+                bw.newLine();
+                bw.write(rs.getString("UCID"));
+            }
             rowsCounter++;
         }
         if( rowsCounter == 0 ){ return;}
@@ -107,5 +118,57 @@ public class TestClass {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         return cal.getTime();
+    }
+    private static void sendResult() {
+
+        final String username = "***********@gmail.com";
+        final String password = "***********";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("**********@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse("************@web-automatics.com"));
+            message.setSubject("Testing Subject");
+            // Create the message body part
+            BodyPart bodyPart = new MimeBodyPart();
+            //fill the message
+            bodyPart.setText("Dear Mail Crawler,"
+                    + "\n\n No spam to my email, please!");
+            // Create the message body part
+            Multipart multipart = new MimeMultipart();
+            // Set text message part
+            multipart.addBodyPart(bodyPart);
+            // Second part is attachment
+            bodyPart = new MimeBodyPart();
+            String filename = "C:\\Users\\User\\Desktop\\filename.txt";
+            DataSource source = new FileDataSource(filename);
+            bodyPart.setDataHandler(new DataHandler(source));
+            bodyPart.setFileName(filename);
+            multipart.addBodyPart(bodyPart);
+            // Send the complete message parts
+            message.setContent(multipart);
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
