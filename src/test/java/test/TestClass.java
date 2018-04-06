@@ -46,7 +46,7 @@ public class TestClass {
     @AfterClass
     public static void tearDown() throws SQLException {
         connection.close();
-        sendResult();
+        //sendResult();
     }
 
     @Test
@@ -121,9 +121,6 @@ public class TestClass {
     }
     private static void sendResult() {
 
-        final String username = "***********@gmail.com";
-        final String password = "***********";
-
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -133,29 +130,28 @@ public class TestClass {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
+                        return new PasswordAuthentication(useEmail, userPassword);
                     }
                 });
 
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("**********@gmail.com"));
+            message.setFrom(new InternetAddress("no-replay@web-automatics.com"));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("************@web-automatics.com"));
-            message.setSubject("Testing Subject");
+                    InternetAddress.parse("recipient@recipi.ent"));
+            message.setSubject("put any subject");
             // Create the message body part
             BodyPart bodyPart = new MimeBodyPart();
             //fill the message
-            bodyPart.setText("Dear Mail Crawler,"
-                    + "\n\n No spam to my email, please!");
+            bodyPart.setText(" put anu text");
             // Create the message body part
             Multipart multipart = new MimeMultipart();
             // Set text message part
             multipart.addBodyPart(bodyPart);
             // Second part is attachment
             bodyPart = new MimeBodyPart();
-            String filename = "C:\\Users\\User\\Desktop\\filename.txt";
+            String filename = "dailyReport.txt";
             DataSource source = new FileDataSource(filename);
             bodyPart.setDataHandler(new DataHandler(source));
             bodyPart.setFileName(filename);

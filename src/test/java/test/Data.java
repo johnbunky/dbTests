@@ -4,7 +4,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 class Data {
-     static  String FILENAME = "C:\\Users\\User\\Desktop\\filename.txt";
+     static  String FILENAME = "dailyReport.txt";
+     static final String useEmail = "********@gmail.com";
+     static final String userPassword = "*********";
      @NotNull
      @Contract(pure = true)
      static String getMainQuery(String previousDate){
@@ -12,7 +14,7 @@ class Data {
                    "select * from CallHistory where\n" +
                    //"CallDate > '2018-03-19T00:00:00' \n" +
                    "CallDate > '" + previousDate + "T00:00:00' \n" +
-                   "--and Len(UserID) = 4\n";
+                   "and Len(UserID) = 4\n";
     }
     static String and = " AND (\n";
 
@@ -63,16 +65,16 @@ class Data {
 
     //**************************** Connnection Data *****************************************
 
-    static String userName = "sa";
+   // static String userName = "sa";
 
-    static String password = "qwe123*";
+   // static String password = "qwe123*";
 
-    static String dbURL = "jdbc:sqlserver://10.217.153.98:1433;databaseName=OneTouchDirect_Activity;" +
-           "Connection Timeout=60;Encrypt=False;Integrated Security=False";
+  //  static String dbURL = "jdbc:sqlserver://10.217.153.98:1433;databaseName=OneTouchDirect_Activity;" +
+       //    "Connection Timeout=60;Encrypt=False;Integrated Security=False";
 
-    //static String userName = "euuser01";
-    //static String password = "<Uu$3r9W20T6";
-    //static String dbURL = "jdbc:sqlserver://Tpa-dwsqlcl01\\dwsqlcl01:1433;databaseName=OneTouchDirect_Activity;" + "Encrypt=False;Integrated Security=False";
-    //static String dbURL = "jdbc:sqlserver://Tpa-dwsqlcl01\\dwsqlcl01:1433;Connection Timeout=60;databaseName=OneTouchDirect_Activity;Encrypt=False;Integrated Security=False;";
+    static String userName = "euuser01";
+    static String password = "euuser01555!";
+   // static String dbURL = "jdbc:sqlserver://Tpa-dwsqlcl01\\dwsqlcl01:1433;databaseName=OneTouchDirect_Activity;" + "Encrypt=False;Integrated Security=False";
+    static String dbURL = "jdbc:sqlserver://Tpa-dwsqlcl01\\dwsqlcl01;Connection Timeout=60;databaseName=OneTouchDirect_Activity;Encrypt=False;Integrated Security=False;";
 
 }
